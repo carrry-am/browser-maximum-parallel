@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network Parallel Test</title>
+</head>
+
+<body>
+  <h1>Network Parallel Test</h1>
+  <button id="startTest">Start Test</button>
+  <div id="result"></div>
+
+  <script>
+    async function sendRequest(index) {
+      const start = Date.now();
+      const response = await fetch(`http://localhost:3000/delay?ms=2000`);
+      const data = await response.json();
+      const end = Date.now();
+      return `Request ${index}: ${end - start} ms`;
+    }
+
+    async function startTest() {
+      const concurrency = 50; // リクエストの並列数
+      const promises = [];
+
+      for (let i = 0; i < concurrency; i++) {
+        promises.push(sendRequest(i + 1));
+      }
+
+      const results = await Promise.all(promises);
+      document.getElementById("result").innerHTML = results.join("<br>");
+    }
+
+    document.getElementById("startTest").addEventListener("click", startTest);
+  </script>
+</body>
+
+</html>
