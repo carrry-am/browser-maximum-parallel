@@ -1,3 +1,11 @@
+# Node.js
+node_modules/
+# 環境変数
+.env
+.env.local
+.env.*.local
+
+# その他一般的な除外ファイル
 .DS_Store
 .idea/
 .vscode/
